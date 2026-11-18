@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Prediction</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body {
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .card {
+            background: #ffffff;
+            padding: 30px 35px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            max-width: 520px;
+            width: 100%;
+        }
+        h2 { margin-top: 0; color: #1e293b; text-align: center; }
+        p.subtitle { text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full { grid-column: span 2; }
+        label { font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 5px; }
+        input {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+        input:focus { outline: none; border-color: #2563eb; }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #1d4ed8; }
+        .result {
+            margin-top: 22px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .result.danger { background: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
+        .result.safe { background: #dcfce7; color: #166534; border: 1px solid #4ade80; }
+        .result h3 { margin: 0 0 5px 0; }
+        .result p { margin: 0; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Diabetes Prediction System</h2>
+    <p class="subtitle">Enter patient clinical parameters below</p>
+
+    <form method="POST">
+        <div class="grid">
+            <div class="form-group">
+                <label>Pregnancies</label>
+                <input type="number" name="Pregnancies" step="1" min="0" placeholder="e.g. 2" required>
+            </div>
+            <div class="form-group">
+                <label>Glucose (mg/dL)</label>
+                <input type="number" name="Glucose" step="any" min="0" placeholder="e.g. 120" required>
+            </div>
+            <div class="form-group">
+                <label>Blood Pressure (mm Hg)</label>
+                <input type="number" name="BloodPressure" step="any" min="0" placeholder="e.g. 70" required>
+            </div>
+            <div class="form-group">
+                <label>Skin Thickness (mm)</label>
+                <input type="number" name="SkinThickness" step="any" min="0" placeholder="e.g. 25" required>
+            </div>
+            <div class="form-group">
+                <label>BMI (kg/m²)</label>
+                <input type="number" name="BMI" step="any" min="0" placeholder="e.g. 28.5" required>
+            </div>
+            <div class="form-group">
+                <label>Diabetes Pedigree Function</label>
+                <input type="number" name="DiabetesPedigreeFunction" step="any" min="0" placeholder="e.g. 0.45" required>
+            </div>
+            <div class="form-group full">
+                <label>Age (Years)</label>
+                <input type="number" name="Age" step="1" min="1" placeholder="e.g. 33" required>
+            </div>
+        </div>
+        <button type="submit">Predict Risk</button>
+    </form>
+
+    {% if prediction_text %}
+    <div class="result {{ 'danger' if is_diabetic else 'safe' }}">
+        <h3>{{ prediction_text }}</h3>
+        {% if probability_text %}
+        <p>{{ probability_text }}</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
